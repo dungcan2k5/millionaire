@@ -64,4 +64,14 @@ B. Bao giờ cho đến tháng Mười (Đ)
 C. Em bé Hà Nội
 D. Vĩ tuyến 17 ngày và đêm
 
-Câu 12: 
+Câu 12: Người thiết kế ngôn ngữ lập trình C++ là ai?
+A. Bjarne Stroustrup (Đ)
+B. Guido van Rossum
+C. James Gosling
+D. Sam Altman
+
+Câu 13: Theo hệ thống múi giờ quốc tế, Việt Nam nằm hoàn toàn trong múi giờ nào?
+A. 5
+B. 8
+C. 9
+D. 7 (Đ)
