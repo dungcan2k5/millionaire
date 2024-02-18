@@ -6,8 +6,26 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include <random>
 using namespace std;
+wstring cau_hoi[15] = {
+    L"Nhà vô địch World Cup 2022 là đội tuyển nào?",
+    L"Chủ tịch Hồ Chí Minh sinh năm nào?",
+    L"Chuyển đổi số 155 từ hệ thập phân sang hệ nhị phân",
+    L"'Thị ơi thị rụng bị bà. Bà để bà ngửi chứ bà không ăn' là câu nói trong truyện cổ tích nào?",
+    L"Không có giải thưởng Nobel nào sau đây?",
+};
 
+wstring dap_an[15][4]{
+    {L"Việt Nam", L"Brazil", L"Pháp", L"Argentina"},
+    {L"1969", L"1905", L"1890", L"1895"}
+
+};
+
+wchar_t dap_an_dung[15] = {
+    L'D',
+    L'C',
+};
 void draw_logo()
 {
     wcout << "    _    ___   _      __     _____ ____  ___  //\\  _   _   ____  _   _   __  "
@@ -39,7 +57,33 @@ void ket_qua(wchar_t chon, wchar_t result, int flag)
         flag = 0; // Nếu trả lời sai thì trò chơi dừng
     }
 }
-void tro_giup(int t)
+// Loại bỏ 2 đáp án sai
+void NamMuoiNamMuoi(wchar_t dap_an_dung, int i)
+{
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, 3);
+    wchar_t random_char = 'A' + dis(gen);
+    if (random_char == dap_an_dung)
+    {
+        if (random_char == 'A' || random_char == 'B' || random_char == 'C')
+            ++random_char;
+        else
+            --random_char;
+    }
+    if (dap_an_dung < random_char)
+    {
+        wcout << dap_an_dung << " " << dap_an[i][dap_an_dung - 65] << endl;
+        wcout << random_char << " " << dap_an[i][random_char - 65] << endl;
+    }
+    else
+    {
+        wcout << random_char << " " << dap_an[i][random_char - 65] << endl;
+        wcout << dap_an_dung << " " << dap_an[i][dap_an_dung - 65] << endl;
+    }
+}
+
+void tro_giup(int t, int i)
 {
     if (t == 2)
     {
@@ -51,13 +95,13 @@ void tro_giup(int t)
     }
     else if (t == 3)
     {
-        wcout << L"Xin mời bạn hỏi khán giả trong trường quay";
-        wcout << L"Nhập số khán giả hỏi";
+        wcout << L"Xin mời bạn hỏi khán giả trong trường quay\n";
+        wcout << L"Bạn có quyền hỏi 10 khán giả\n";
         int so_luong[5] = {0};
-        for (int i = 1; i <= 4; i++)
+        for (int i = 1; i <= 10; i++)
         {
             wcout << "\n"
-                  << L"Mời khán giả" << i << L" cho ý kiến: ";
+                  << L"Mời khán giả " << i << L" cho ý kiến: ";
             wchar_t s;
             wcin >> s;
             switch (s)
@@ -72,27 +116,30 @@ void tro_giup(int t)
                 so_luong[4]++;
             }
         }
-        wcout << L"Đáp án A có : " << so_luong[1] << L"lựa chọn\n";
-        wcout << L"Đáp án B có : " << so_luong[2] << L"lựa chọn\n";
-        wcout << L"Đáp án C có : " << so_luong[3] << L"lựa chọn\n";
-        wcout << L"Đáp án D có : " << so_luong[4] << L"lựa chọn\n";
+        wcout << L"Đáp án A có : " << so_luong[1] << L" lựa chọn\n";
+        wcout << L"Đáp án B có : " << so_luong[2] << L" lựa chọn\n";
+        wcout << L"Đáp án C có : " << so_luong[3] << L" lựa chọn\n";
+        wcout << L"Đáp án D có : " << so_luong[4] << L" lựa chọn\n";
         wcout << L"Lựa chọn cuối cùng của bạn là :";
     }
     else
     {
+        NamMuoiNamMuoi(dap_an_dung[i], i);
     }
 }
-void in_sp(int one,int two,int three)
+void in_sp(int one, int two, int three)
 {
+    wcout << L"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
     wcout << L"Bạn còn các quyền trợ giúp là: \n";
     if (one != 0)
-        wcout << L"1. Năm mươi năm mươi\n";
+        wcout << L"  1. Năm mươi năm mươi\n";
     if (two != 0)
-        wcout << L"2. Gọi điện cho người thân\n";
+        wcout << L"  2. Gọi điện cho người thân\n";
     if (three != 0)
-        wcout << L"3.Hỏi ý kiến khán giả\n";
+        wcout << L"  3. Hỏi ý kiến khán giả\n";
+    wcout << L"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
-void check_sp(int one, int two, int three)
+void check_sp(int one, int two, int three, int i)
 {
     // Phần lưạ chọn đáp án hay trợ giúp ()
     wcout << L"Bạn có xử dụng quyền trợ giúp không (Có là 1 hoặc Không là 0): ";
@@ -100,39 +147,23 @@ void check_sp(int one, int two, int three)
     wcin >> yesno;
     if (yesno == 1)
     {
-        in_sp(one,two,three);   
+        in_sp(one, two, three);
         wcout << L"Bạn sẽ sẽ dụng quyền trợ giúp nào : ";
         int t;
         wcin >> t;
-        switch (t){
-            case 1 :
-                one--;
-            case 2 :
-                two--;
-            case 3:
-                three--;
+        switch (t)
+        {
+        case 1:
+            one--;
+        case 2:
+            two--;
+        case 3:
+            three--;
         }
-        tro_giup(t);
+        tro_giup(t, i);
     }
 }
-wstring cau_hoi[15] = {
-    L"Nhà vô địch World Cup 2022 là đội tuyển nào?",
-    L"Chủ tịch Hồ Chí Minh sinh năm nào?",
-    L"Chuyển đổi số 155 từ hệ thập phân sang hệ nhị phân",
-    L"'Thị ơi thị rụng bị bà. Bà để bà ngửi chứ bà không ăn' là câu nói trong truyện cổ tích nào?",
-    L"Không có giải thưởng Nobel nào sau đây?",
-};
 
-wstring dap_an[15][4]{
-    {L"Việt Nam", L"Brazil", L"Pháp", L"Argentina"},
-    {L"1969", L"1905", L"1890", L"1895"}
-
-};
-
-wchar_t dap_an_dung[15] = {
-    L'D',
-    L'C',
-};
 // Phần trợ giúp Hỏi Ý Kiến Khán Giả
 void HoiKhanGia()
 {
@@ -142,13 +173,10 @@ void HoiKhanGia()
     for (int i = 1; i <= n; i++)
     {
         wcout << "\n"
-              << L"Mời khán giả" << i << L" cho ý kiến: ";
+              << L"Mời khán giả " << i << L" cho ý kiến: ";
         wstring s;
         wcin >> s;
     }
-}
-void trogiup_nammuoi(string dap_an_dung, string dap_an_nhieu)
-{
 }
 
 void in(wstring cau_hoi, wstring a, wstring b, wstring c, wstring d)
@@ -161,15 +189,16 @@ void in(wstring cau_hoi, wstring a, wstring b, wstring c, wstring d)
     wcout << L"C. " << c << "          \t" << L"D. " << d << "\n";
 }
 
-void tro_choi(wstring cau_hoi, wstring a, wstring b, wstring c, wstring d, wchar_t result, int flag)
+void tro_choi(wstring cau_hoi, wstring a, wstring b, wstring c, wstring d, wchar_t result, int &flag)
 {
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stdout), _O_U16TEXT);
-    wcout << L"Mời bạn chọn đáp án:";
+    wcout << L"Mời bạn chọn đáp án: ";
     wchar_t chon;
     wcin >> chon;
     if (toupper(chon) == toupper(result))
         wcout << L"Bạn trả lời đúng!!!\n";
+    // flag = 1;
     else
     {
         wcout << L"Rất tiếc câu trả lời sai rồi !" << "\n";
