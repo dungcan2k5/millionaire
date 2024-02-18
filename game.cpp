@@ -14,7 +14,7 @@ int main()
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stdout), _O_U16TEXT);
     // locale loc(locale(), new codecvt_utf<wchar_t>);
-    int dem = 0;
+    int dem = 0;// đếm số câu trả lời đúng
     draw_logo();
     int i = 0;
     int count_sp = 3; // Biến đếm số lương trợ giúp
@@ -26,10 +26,13 @@ int main()
         check_sp(one, two, three, i);
         tro_choi(cau_hoi[i], dap_an[i][0], dap_an[i][1], dap_an[i][2], dap_an[i][3], dap_an_dung[i], flag);
         if (flag == 0){
+            //wcout << L"Bạn đã trả lời đúng " << dem << L" câu." << endl;
             break;
+        }else{
+            dem++;
         }
         i++;
-        dem++;
     }
+    wcout << L"Bạn đã trả lời đúng " << dem << L" câu." << endl;
     return 0;
 }
