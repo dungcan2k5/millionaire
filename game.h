@@ -6,18 +6,20 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+
 #include "mylst.h"
 using namespace std;
 int one = 1, two = 1, three = 1;
-int main()
+int startGame()
 {
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stdout), _O_U16TEXT);
     // locale loc(locale(), new codecvt_utf<wchar_t>);
+    inputQuestion("BoCauHoi.txt");
     int dem = 0;// đếm số câu trả lời đúng
-    draw_logo();
+    // draw_logo();
     int i = 0;
-    int count_sp = 3; // Biến đếm số lương trợ giúp
+    int count_sp = 3; // Biến đếm số lượng trợ giúp
     //int flag = 1;
     while (i < 15){
         int flag = 1;

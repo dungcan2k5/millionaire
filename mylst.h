@@ -7,25 +7,39 @@
 #include <locale>
 #include <codecvt>
 #include <random>
+
 using namespace std;
-wstring cau_hoi[15] = {
-    L"Nhà vô địch World Cup 2022 là đội tuyển nào?",
-    L"Chủ tịch Hồ Chí Minh sinh năm nào?",
-    L"Chuyển đổi số 155 từ hệ thập phân sang hệ nhị phân",
-    L"'Thị ơi thị rụng bị bà. Bà để bà ngửi chứ bà không ăn' là câu nói trong truyện cổ tích nào?",
-    L"Không có giải thưởng Nobel nào sau đây?",
-};
 
-wstring dap_an[15][4]{
-    {L"Việt Nam", L"Brazil", L"Pháp", L"Argentina"},
-    {L"1969", L"1905", L"1890", L"1895"}
+wstring cau_hoi[15];
+wstring dap_an[15][4];
+wchar_t dap_an_dung[15];
 
-};
+void inputQuestion(string path_to_file)
+{
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    locale loc(locale(), new codecvt_utf8<wchar_t>);
+    wfstream input(path_to_file);
+    input.imbue(loc);
 
-wchar_t dap_an_dung[15] = {
-    L'D',
-    L'C',
-};
+    wstring data;
+    for (int i = 0; i < 15; i++)
+    {
+        getline(input, data);
+        cau_hoi[i] = data;
+        getline(input, data);
+        dap_an[i][0] = data;
+        getline(input, data);
+        dap_an[i][1] = data;
+        getline(input, data);
+        dap_an[i][2] = data;
+        getline(input, data);
+        dap_an[i][3] = data;
+        getline(input, data);
+        dap_an_dung[i] = data[0];
+        
+    }
+}
 void draw_logo()
 {
     wcout << "    _    ___   _      __     _____ ____  ___  //\\  _   _   ____  _   _   __  "
@@ -73,8 +87,8 @@ void NamMuoiNamMuoi(wchar_t dap_an_dung, int i)
     }
     if (dap_an_dung < random_char)
     {
-        wcout << dap_an_dung << " " << dap_an[i][dap_an_dung - 65] << endl;
-        wcout << random_char << " " << dap_an[i][random_char - 65] << endl;
+        wcout << dap_an_dung << " " << &dap_an[i][dap_an_dung - 65] << endl;
+        wcout << random_char << " " << &dap_an[i][random_char - 65] << endl;
     }
     else
     {
@@ -185,8 +199,8 @@ void in(wstring cau_hoi, wstring a, wstring b, wstring c, wstring d)
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stdout), _O_U16TEXT);
     wcout << "          " << cau_hoi << "\n";
-    wcout << L"A. " << a << "          \t" << L"B. " << b << "\n";
-    wcout << L"C. " << c << "          \t" << L"D. " << d << "\n";
+    wcout << a << "          \t" << b << "\n";
+    wcout << c << "          \t" << d << "\n";
 }
 
 void tro_choi(wstring cau_hoi, wstring a, wstring b, wstring c, wstring d, wchar_t result, int &flag)
