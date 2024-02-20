@@ -141,7 +141,7 @@ void tro_giup(int t, int i)
         NamMuoiNamMuoi(dap_an_dung[i], i);
     }
 }
-void in_sp(int one, int two, int three)
+void in_sp(int &one, int &two, int &three)
 {
     wcout << L"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
     wcout << L"Bạn còn các quyền trợ giúp là: \n";
