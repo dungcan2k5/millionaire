@@ -87,13 +87,13 @@ void NamMuoiNamMuoi(wchar_t dap_an_dung, int i)
     }
     if (dap_an_dung < random_char)
     {
-        wcout << dap_an_dung << " " << &dap_an[i][dap_an_dung - 65] << endl;
-        wcout << random_char << " " << &dap_an[i][random_char - 65] << endl;
+        wcout << dap_an[i][dap_an_dung - 65] << endl;
+        wcout << dap_an[i][random_char - 65] << endl;
     }
     else
     {
-        wcout << random_char << " " << dap_an[i][random_char - 65] << endl;
-        wcout << dap_an_dung << " " << dap_an[i][dap_an_dung - 65] << endl;
+        wcout << dap_an[i][random_char - 65] << endl;
+        wcout << dap_an[i][dap_an_dung - 65] << endl;
     }
 }
 
@@ -153,26 +153,27 @@ void in_sp(int &one, int &two, int &three)
         wcout << L"  3. Hỏi ý kiến khán giả\n";
     wcout << L"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
-void check_sp(int one, int two, int three, int i)
+void check_sp(int &one, int &two, int &three, int i)
 {
     // Phần lưạ chọn đáp án hay trợ giúp ()
     wcout << L"Bạn có xử dụng quyền trợ giúp không (Có là 1 hoặc Không là 0): ";
-    int yesno;
-    wcin >> yesno;
+    int yesno; wcin >> yesno;
     if (yesno == 1)
     {
         in_sp(one, two, three);
         wcout << L"Bạn sẽ sẽ dụng quyền trợ giúp nào : ";
         int t;
         wcin >> t;
-        switch (t)
-        {
+        switch (t){
         case 1:
             one--;
+            break;
         case 2:
             two--;
+            break;
         case 3:
             three--;
+            break;
         }
         tro_giup(t, i);
     }
